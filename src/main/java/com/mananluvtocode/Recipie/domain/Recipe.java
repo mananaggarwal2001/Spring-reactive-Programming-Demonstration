@@ -20,9 +20,13 @@ public class Recipe {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<Ingridient> ingridients;
 
+    @Enumerated(value = EnumType.STRING)
+    private Difficulty difficulty;
+
     // Blob meaning Binary Large objects it is to allow database to Store the data more than 255 characters like image and all stuffs.
     // this also known as the large object fields.
-    @Lob // this annotation is used for storing the large objects which can has more than 255 characters of the value for doing the work.
+    @Lob
+    // this annotation is used for storing the large objects which can has more than 255 characters of the value for doing the work.
     private Byte[] image;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -108,5 +112,21 @@ public class Recipe {
 
     public void setNotes(Notes notes) {
         this.notes = notes;
+    }
+
+    public Set<Ingridient> getIngridients() {
+        return ingridients;
+    }
+
+    public void setIngridients(Set<Ingridient> ingridients) {
+        this.ingridients = ingridients;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 }
