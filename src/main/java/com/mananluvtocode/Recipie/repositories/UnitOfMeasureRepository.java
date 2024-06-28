@@ -1,0 +1,8 @@
+package com.mananluvtocode.Recipie.repositories;
+
+import com.mananluvtocode.Recipie.domain.UnitOfMeasure;
+import org.springframework.data.repository.CrudRepository;
+
+public interface UnitOfMeasureRepository extends CrudRepository<UnitOfMeasure, Long> {
+
+}
