@@ -3,7 +3,6 @@ package com.mananluvtocode.Recipie.domain;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Notes")
 public class Notes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

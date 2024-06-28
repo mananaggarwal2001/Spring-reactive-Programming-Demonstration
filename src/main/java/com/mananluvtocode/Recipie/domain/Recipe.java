@@ -2,8 +2,9 @@ package com.mananluvtocode.Recipie.domain;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
-@Table(name = "Recipe")
 public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +16,9 @@ public class Recipe {
     private String source;
     private String url;
     private String directions;
+    // mapped by is the property of the child class.
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+    private Set<Ingridient> ingridients;
 
     // Blob meaning Binary Large objects it is to allow database to Store the data more than 255 characters like image and all stuffs.
     // this also known as the large object fields.
