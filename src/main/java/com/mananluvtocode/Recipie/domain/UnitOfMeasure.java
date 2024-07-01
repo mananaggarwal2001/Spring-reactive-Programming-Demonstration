@@ -2,12 +2,16 @@ package com.mananluvtocode.Recipie.domain;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 public class UnitOfMeasure {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String uom;
+    private String description;
+    @OneToMany(mappedBy = "unitOfMeasure")
+    private Set<Ingredient> ingredient;
 
     public Long getId() {
         return id;
@@ -17,11 +21,19 @@ public class UnitOfMeasure {
         this.id = id;
     }
 
-    public String getUom() {
-        return uom;
+    public String getDescription() {
+        return description;
     }
 
-    public void setUom(String uom) {
-        this.uom = uom;
+    public Set<Ingredient> getIngredient() {
+        return ingredient;
+    }
+
+    public void setIngredient(Set<Ingredient> ingredient) {
+        this.ingredient = ingredient;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

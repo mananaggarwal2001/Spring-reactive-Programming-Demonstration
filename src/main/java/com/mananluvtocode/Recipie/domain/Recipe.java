@@ -2,6 +2,7 @@ package com.mananluvtocode.Recipie.domain;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,7 +19,7 @@ public class Recipe {
     private String directions;
     // mapped by is the property of the child class.
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<Ingridient> ingridients;
+    private Set<Ingredient> ingridients= new HashSet<>();
 
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
@@ -37,7 +38,7 @@ public class Recipe {
     @JoinTable(name = "recipe_categories"
             , joinColumns = @JoinColumn(name = "recipe_id")
             , inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<Category> categories;
+    private Set<Category> categories= new HashSet<>();
 
 
     public Long getId() {
@@ -120,11 +121,11 @@ public class Recipe {
         this.notes = notes;
     }
 
-    public Set<Ingridient> getIngridients() {
+    public Set<Ingredient> getIngridients() {
         return ingridients;
     }
 
-    public void setIngridients(Set<Ingridient> ingridients) {
+    public void setIngridients(Set<Ingredient> ingridients) {
         this.ingridients = ingridients;
     }
 
@@ -142,5 +143,14 @@ public class Recipe {
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
+    }
+
+    public void addIngredient(Ingredient ripeAvocados) {
+        Set<Ingredient> ingridients = this.getIngridients();
+        if (ingridients == null) {
+            ingridients = new HashSet<>();
+        }
+        ingridients.add(ripeAvocados);
+        this.setIngridients(ingridients);
     }
 }
