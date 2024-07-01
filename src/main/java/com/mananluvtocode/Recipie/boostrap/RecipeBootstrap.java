@@ -5,6 +5,9 @@ import com.mananluvtocode.Recipie.domain.*;
 import com.mananluvtocode.Recipie.repositories.CategoryRepository;
 import com.mananluvtocode.Recipie.repositories.RecipeRepository;
 import com.mananluvtocode.Recipie.repositories.UnitOfMeasureRepository;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -20,6 +23,7 @@ import java.util.Optional;
 @Component
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
+    private static final Logger log = LoggerFactory.getLogger(RecipeBootstrap.class);
     private final CategoryRepository categoryRepository;
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
@@ -32,7 +36,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        recipeRepository.saveAll(getRecipes());
+        log.debug("Starting Recipie Bootstrap for doing further work in the application");
     }
 
     private List<Recipe> getRecipes() {
