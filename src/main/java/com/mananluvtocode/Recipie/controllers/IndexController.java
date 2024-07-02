@@ -1,7 +1,7 @@
 package com.mananluvtocode.Recipie.controllers;
 
 import com.mananluvtocode.Recipie.domain.Recipe;
-import com.mananluvtocode.Recipie.repositories.RecipeRepository;
+import com.mananluvtocode.Recipie.service.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,16 +14,15 @@ import java.util.Set;
 @Slf4j
 public class IndexController {
     // for writing the multiple requests for showing the same page.
-    private final RecipeRepository recipeRepository;
+    private final RecipeService recipeService;
 
-    public IndexController(RecipeRepository recipeRepository) {
-        this.recipeRepository = recipeRepository;
+    public IndexController(RecipeService recipeService) {
+        this.recipeService = recipeService;
     }
 
     @RequestMapping({"", "/", "index"})
     public String getIndexPage(Model themodel) {
-        Set<Recipe> recipes = new HashSet<>();
-        recipeRepository.findAll().forEach(recipes::add);
+        Set<Recipe> recipes = new HashSet<>(recipeService.getAllRecipes());
         themodel.addAttribute("recipes", recipes);
         log.debug("Getting the index page for this controller and then showing in the frontend.");
         return "index";

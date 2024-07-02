@@ -10,6 +10,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+// just hover over the Category and then press the alt-enter for opening the dialog box and then select the Create test for creating the testing environment for doing the testing.
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
