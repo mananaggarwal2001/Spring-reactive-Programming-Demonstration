@@ -8,6 +8,7 @@ class RecipieApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }
