@@ -6,6 +6,7 @@ import com.mananluvtocode.Recipie.repositories.CategoryRepository;
 import com.mananluvtocode.Recipie.repositories.RecipeRepository;
 import com.mananluvtocode.Recipie.repositories.UnitOfMeasureRepository;
 
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
@@ -35,7 +36,9 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     }
 
     @Override
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
+        recipeRepository.saveAll(getRecipes());
         log.debug("Starting Recipie Bootstrap for doing further work in the application");
     }
 
@@ -47,6 +50,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         Optional<UnitOfMeasure> eachUomOptional = unitOfMeasureRepository.findByDescription("Each");
 
         if (!eachUomOptional.isPresent()) {
+//            recipeRepository.saveAll(recipes);
             throw new RuntimeException("Expected UOM Not Found");
         }
 
@@ -142,7 +146,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         tacosRecipe.setDifficulty(Difficulty.MODERATE);
 
         tacosRecipe.setDirections("1 Prepare a gas or charcoal grill for medium-high, direct heat.\n"
-                );
+        );
 
         Notes tacoNotes = new Notes();
         tacoNotes.setDescription("We have a family motto and it is this: Everything goes better in a tortilla.\n"
