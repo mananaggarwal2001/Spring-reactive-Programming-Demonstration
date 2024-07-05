@@ -117,6 +117,8 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         guacNotes.setDescription("For a very quick guacamole just take a 1/4 cup of salsa and mix it in with your mashed avocados.\n");
 
         guacRecipe.setNotes(guacNotes);
+        guacRecipe.setServings(4);
+        guacRecipe.setUrl("https://www.simplyrecipes.com/recipes/perfect_guacamole/");
 
         //very redundent - could add helper method, and make this simpler
         guacRecipe.addIngredient(new Ingredient("ripe avocados", new BigDecimal(2), eachUom));
