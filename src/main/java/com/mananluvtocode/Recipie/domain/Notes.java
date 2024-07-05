@@ -10,7 +10,8 @@ public class Notes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+
+    @OneToOne(mappedBy = "notes")
     private Recipe recipe;
 
     @Lob // this annotation is used for the large objects to tell the database that this can exceed more than 255 characters.

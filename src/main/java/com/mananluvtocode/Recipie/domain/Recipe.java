@@ -1,13 +1,15 @@
 package com.mananluvtocode.Recipie.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
 public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +22,8 @@ public class Recipe {
     private String url;
     private String directions;
     // mapped by is the property of the child class.
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<Ingredient> ingridients= new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Ingredient> ingridients;
 
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
@@ -42,13 +44,14 @@ public class Recipe {
             , inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories= new HashSet<>();
 
-
     public void addIngredient(Ingredient ripeAvocados) {
         Set<Ingredient> ingridients = this.getIngridients();
+        System.out.println(ingridients);
         if (ingridients == null) {
             ingridients = new HashSet<>();
         }
         ingridients.add(ripeAvocados);
         this.setIngridients(ingridients);
+        System.out.println(this.getIngridients());
     }
 }

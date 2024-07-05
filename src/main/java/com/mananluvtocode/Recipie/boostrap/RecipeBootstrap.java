@@ -1,11 +1,8 @@
 package com.mananluvtocode.Recipie.boostrap;
-
-
 import com.mananluvtocode.Recipie.domain.*;
 import com.mananluvtocode.Recipie.repositories.CategoryRepository;
 import com.mananluvtocode.Recipie.repositories.RecipeRepository;
 import com.mananluvtocode.Recipie.repositories.UnitOfMeasureRepository;
-
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +35,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        recipeRepository.saveAll(getRecipes());
+//        recipeRepository.saveAll(getRecipes());
         log.debug("Starting Recipie Bootstrap for doing further work in the application");
     }
 
@@ -50,7 +47,6 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         Optional<UnitOfMeasure> eachUomOptional = unitOfMeasureRepository.findByDescription("Each");
 
         if (!eachUomOptional.isPresent()) {
-//            recipeRepository.saveAll(recipes);
             throw new RuntimeException("Expected UOM Not Found");
         }
 

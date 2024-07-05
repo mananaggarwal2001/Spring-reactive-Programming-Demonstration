@@ -3,13 +3,15 @@ package com.mananluvtocode.Recipie.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.Set;
 
 @Entity
 @Data
-@EqualsAndHashCode(exclude = {"recipe"})
+@ToString
+//@EqualsAndHashCode(exclude = {"recipe"})
 public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +19,8 @@ public class Ingredient {
 
     private String description;
     private BigDecimal amount;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "recipe_id")
     private Recipe recipe;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "unit_of_measure_id")
@@ -31,5 +34,4 @@ public class Ingredient {
 
     public Ingredient() {
     }
-
 }
