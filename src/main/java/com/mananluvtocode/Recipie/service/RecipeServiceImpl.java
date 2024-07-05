@@ -55,4 +55,10 @@ public class RecipeServiceImpl implements com.mananluvtocode.Recipie.service.Rec
         log.debug("Id of the Saved Recipe is :- {}", returnedRecipeCommand.getId());
         return returnedRecipeCommand;
     }
+
+    @Override
+    @Transactional
+    public RecipeCommand findCommandById(Long id) {
+        return recipeCommand.convert(findById(id));
+    }
 }
