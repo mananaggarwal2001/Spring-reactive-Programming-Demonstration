@@ -36,9 +36,17 @@ public class RecipeController {
         themodel.addAttribute("recipe", recipeService.findCommandById(id));
         return "recipe/recipeform";
     }
+
     @PostMapping("/recipe/")
     public String saveOrUpdateRecipe(@ModelAttribute("recipe") RecipeCommand recipe) {
         RecipeCommand savedRecipe = recipeService.saveRecipeCommand(recipe);
         return "redirect:/recipe/show/" + savedRecipe.getId();
+    }
+
+    // for delete endpoint we must do this thing which is :-
+    @GetMapping("/recipe/delete/{id}")
+    public String deleteRecipe(@PathVariable("id") Long id) {
+        recipeService.deleteById(id);
+        return "redirect:/";
     }
 }

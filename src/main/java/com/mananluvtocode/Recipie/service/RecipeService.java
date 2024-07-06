@@ -1,6 +1,7 @@
 package com.mananluvtocode.Recipie.service;
 
 import com.mananluvtocode.Recipie.commands.RecipeCommand;
+import com.mananluvtocode.Recipie.domain.Ingredient;
 import com.mananluvtocode.Recipie.domain.Recipe;
 
 import java.util.Set;
@@ -13,4 +14,7 @@ public interface RecipeService {
     RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand);
 
     RecipeCommand findCommandById(Long id);
+    void deleteById(Long idToDelete);
+
+    Set<Ingredient> getIngridientByRecipeId(Long recipeId);
 }

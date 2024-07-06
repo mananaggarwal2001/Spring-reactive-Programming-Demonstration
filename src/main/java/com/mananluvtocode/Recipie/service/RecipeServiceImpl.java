@@ -3,6 +3,7 @@ package com.mananluvtocode.Recipie.service;
 import com.mananluvtocode.Recipie.commands.RecipeCommand;
 import com.mananluvtocode.Recipie.converters.RecipeCommandToRecipe;
 import com.mananluvtocode.Recipie.converters.RecipeToRecipeCommand;
+import com.mananluvtocode.Recipie.domain.Ingredient;
 import com.mananluvtocode.Recipie.domain.Recipe;
 import com.mananluvtocode.Recipie.repositories.RecipeRepository;
 import jakarta.transaction.Transactional;
@@ -60,5 +61,17 @@ public class RecipeServiceImpl implements com.mananluvtocode.Recipie.service.Rec
     @Transactional
     public RecipeCommand findCommandById(Long id) {
         return recipeCommand.convert(findById(id));
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long idToDelete) {
+        recipeRepository.deleteById(idToDelete);
+    }
+
+    @Override
+    public Set<Ingredient> getIngridientByRecipeId(Long recipeId) {
+        Recipe finalRecipe= findById(recipeId);
+        return finalRecipe.getIngridients();
     }
 }

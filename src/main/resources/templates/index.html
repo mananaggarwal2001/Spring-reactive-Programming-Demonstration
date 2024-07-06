@@ -7,12 +7,12 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"
-    th:href="@{webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}">
+          th:href="@{webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}">
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous" th:href="@{webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}"></script>
+            crossorigin="anonymous"></script>
     <script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
 </head>
 <body>
@@ -27,6 +27,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive" th:if="${not #lists.isEmpty(recipes)}">
+                        <a href="#" th:href="@{/recipe/new}" class="btn btn-primary">Add New</a>
                         <table class="table table-hover ">
                             <thead class="thead-inverse">
                             <tr>
@@ -34,9 +35,10 @@
                                 <th>Description</th>
                                 <th>View</th>
                                 <th>Update</th>
+                                <th>Delete</th>
                             </tr>
                             </thead>
-<!--                            th:remove tells the thymeleaf that remove these blocks after running the application.-->
+                            <!--                            th:remove tells the thymeleaf that remove these blocks after running the application.-->
                             <tr th:remove="all">
                                 <td th:text="${recipe.id}">123</td>
                                 <td th:text="${recipe.description}">Tasty Goodnees 1</td>
@@ -49,7 +51,8 @@
                                 <td th:text="${recipe.id}">334</td>
                                 <td th:text="${recipe.description}">Tasty Goodnees 3</td>
                                 <td><a href="#" th:href="@{'/recipe/show/' + ${recipe.id}}">View</a></td>
-                                <td><a href="#" th:href="@{'/recipe/update/' + ${recipe.id}}">Update</a></td>
+                                <td><a href="#" th:href="@{'/recipe/update/' + ${recipe.id}}">Update</a>
+                                <td><a th:href="@{'/recipe/delete/' + ${recipe.id} }">Delete</a></td>
                             </tr>
                         </table>
                     </div>

@@ -13,6 +13,7 @@ public class unitOfMeasureToUnitOfMeasureCommandConverter implements Converter<U
     @Nullable
     @Override
     public UnitOfMeasureCommand convert(UnitOfMeasure source) {
+        System.out.println(source);
         if (source == null) {
             return null;
         }
