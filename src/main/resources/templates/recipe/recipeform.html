@@ -65,7 +65,6 @@
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label>Difficulty:</label>
-<!--                                    syntax for getting the values of the enumeration directly into the template.-->
                                     <select th:field="*{difficulty}" class="form-control">
                                         <option th:each="difficulty: ${T(com.mananluvtocode.Recipie.domain.Difficulty).values()}"
                                                 th:value="${difficulty.name()}"

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Blob;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,5 +29,6 @@ public class RecipeCommand {
     private Set<IngredientCommand> ingredients = new HashSet<>();
     private Difficulty difficulty;
     private NotesCommand notes;
+    private Blob image;
     private Set<CategoryCommand> categories = new HashSet<>();
 }

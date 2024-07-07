@@ -3,6 +3,7 @@ package com.mananluvtocode.Recipie.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Blob;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,9 +31,10 @@ public class Recipe {
 
     // Blob meaning Binary Large objects it is to allow database to Store the data more than 255 characters like image and all stuffs.
     // this also known as the large object fields.
-    @Lob
     // this annotation is used for storing the large objects which can has more than 255 characters of the value for doing the work.
-    private Byte[] image;
+    @Getter
+    @Lob
+    private Blob image;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "notes_id")
@@ -54,4 +56,5 @@ public class Recipe {
         this.setIngridients(ingridients);
         System.out.println(this.getIngridients());
     }
+
 }
