@@ -21,7 +21,7 @@
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <form  th:object="${recipe}" th:action="@{/recipe/}"  method="post">
+            <form th:object="${recipe}" th:action="@{/recipe/}" method="post">
                 <input type="hidden" th:field="*{id}"/>
                 <div class="pannel-group">
                     <div class="panel panel-primary">
@@ -65,7 +65,15 @@
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label>Difficulty:</label>
-                                    <select class="form-control">
+<!--                                    syntax for getting the values of the enumeration directly into the template.-->
+                                    <select th:field="*{difficulty}" class="form-control">
+                                        <option th:each="difficulty: ${T(com.mananluvtocode.Recipie.domain.Difficulty).values()}"
+                                                th:value="${difficulty.name()}"
+                                                th:text="${difficulty.name()}"
+                                        >
+                                        </option>
+                                    </select>
+                                    <select th:remove="all" class="form-control">
                                         <option>Easy</option>
                                         <option>Medium</option>
                                         <option>Hard</option>
