@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 @Service
@@ -56,12 +57,16 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     @Transactional
     public IngredientCommand saveIngredientCommand(IngredientCommand ingredientCommand) {
+
         Optional<Recipe> recipeOptional = recipeRepository.findById(ingredientCommand.getRecipeId());
         if (recipeOptional.isEmpty()) {
             log.error("Recipe Not found for this id:- " + ingredientCommand.getRecipeId());
+            System.out.println("If condition will run");
             return new IngredientCommand();
         } else {
+//            System.out.println("else method will run for finding recipe");
             Recipe originalRecipe = recipeOptional.get();
+            System.out.println(originalRecipe.getNotes());
             Optional<Ingredient> foundIngredient = originalRecipe
                     .getIngridients()
                     .stream()
@@ -72,15 +77,23 @@ public class IngredientServiceImpl implements IngredientService {
                 replacedIngridient.setAmount(ingredientCommand.getAmount());
                 replacedIngridient.setUnitOfMeasure(unitOfMeasureRepository.findById(ingredientCommand.getUnitOfMeasure().getId()).orElseThrow(() -> new RuntimeException("UOM NOT FOUND FOR THIS ID")));
             } else {
-                originalRecipe.addIngredient(ingredientCommandToIngredient.convert(ingredientCommand));
+                // add new ingredient for the recipe.
+                Ingredient originalIngredient = ingredientCommandToIngredient.convert(ingredientCommand);
+                originalIngredient.setRecipe(originalRecipe);
+                originalRecipe.addIngredient(originalIngredient);
             }
             Recipe savedRecipe = recipeRepository.save(originalRecipe);
-            Optional<Ingredient> finalingredient = savedRecipe.getIngridients().stream().filter(element -> element.getId().equals(ingredientCommand.getId())).findFirst();
+            Optional<Ingredient> finalingredient = savedRecipe.getIngridients().stream()
+                    .filter(element -> element.getDescription().equals(ingredientCommand.getDescription()))
+                    .filter(element->element.getAmount().equals(ingredientCommand.getAmount()))
+                    .filter(element->element.getUnitOfMeasure().getId().equals(ingredientCommand.getUnitOfMeasure().getId()))
+                    .findFirst();
             IngredientCommand finalIngredientCommand = null;
             if (finalingredient.isPresent()) {
                 finalIngredientCommand = ingredientToIngredientCommand.convert(finalingredient.get());
             }
             return finalIngredientCommand;
+//            return new IngredientCommand();
         }
     }
 }

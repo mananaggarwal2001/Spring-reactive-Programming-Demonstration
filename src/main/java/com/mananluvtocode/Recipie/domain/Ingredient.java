@@ -1,16 +1,14 @@
 package com.mananluvtocode.Recipie.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Set;
 
 @Entity
-@Data
-@ToString
+@Getter
+@Setter
 //@EqualsAndHashCode(exclude = {"recipe"})
 public class Ingredient {
     @Id
