@@ -6,4 +6,6 @@ import com.mananluvtocode.Recipie.domain.Ingredient;
 public interface IngredientService {
     IngredientCommand findByRecipeIdAndId(Long recipeId, Long id);
     IngredientCommand saveIngredientCommand(IngredientCommand ingredientCommand);
+
+    void deleteIngredient(Long id);
 }

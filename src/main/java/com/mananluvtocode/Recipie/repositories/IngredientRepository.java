@@ -1,0 +1,8 @@
+package com.mananluvtocode.Recipie.repositories;
+
+import com.mananluvtocode.Recipie.domain.Ingredient;
+import org.springframework.data.repository.CrudRepository;
+
+public interface IngredientRepository extends CrudRepository<Ingredient, Long> {
+
+}

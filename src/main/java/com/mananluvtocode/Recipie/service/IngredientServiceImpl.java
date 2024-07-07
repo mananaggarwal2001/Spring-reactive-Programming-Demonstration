@@ -8,6 +8,7 @@ import com.mananluvtocode.Recipie.converters.RecipeCommandToRecipe;
 import com.mananluvtocode.Recipie.converters.RecipeToRecipeCommand;
 import com.mananluvtocode.Recipie.domain.Ingredient;
 import com.mananluvtocode.Recipie.domain.Recipe;
+import com.mananluvtocode.Recipie.repositories.IngredientRepository;
 import com.mananluvtocode.Recipie.repositories.RecipeRepository;
 import com.mananluvtocode.Recipie.repositories.UnitOfMeasureRepository;
 import jakarta.transaction.Transactional;
@@ -26,14 +27,16 @@ public class IngredientServiceImpl implements IngredientService {
     private final UnitOfMeasureRepository unitOfMeasureRepository;
     private final RecipeCommandToRecipe recipeCommandToRecipe;
     private final IngredientCommandToIngredient ingredientCommandToIngredient;
+    private final IngredientRepository ingredientRepository;
     private final RecipeToRecipeCommand recipeToRecipeCommand;
 
-    public IngredientServiceImpl(RecipeRepository recipeRepository, IngredientToIngredientCommand ingredientToIngredientCommand, UnitOfMeasureRepository unitOfMeasureRepository, RecipeCommandToRecipe recipeCommandToRecipe, IngredientCommandToIngredient ingredientCommandToIngredient, RecipeToRecipeCommand recipeToRecipeCommand) {
+    public IngredientServiceImpl(RecipeRepository recipeRepository, IngredientToIngredientCommand ingredientToIngredientCommand, UnitOfMeasureRepository unitOfMeasureRepository, RecipeCommandToRecipe recipeCommandToRecipe, IngredientCommandToIngredient ingredientCommandToIngredient, IngredientRepository ingredientRepository, RecipeToRecipeCommand recipeToRecipeCommand) {
         this.recipeRepository = recipeRepository;
         this.ingredientToIngredientCommand = ingredientToIngredientCommand;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
         this.recipeCommandToRecipe = recipeCommandToRecipe;
         this.ingredientCommandToIngredient = ingredientCommandToIngredient;
+        this.ingredientRepository = ingredientRepository;
         this.recipeToRecipeCommand = recipeToRecipeCommand;
     }
 
@@ -85,8 +88,8 @@ public class IngredientServiceImpl implements IngredientService {
             Recipe savedRecipe = recipeRepository.save(originalRecipe);
             Optional<Ingredient> finalingredient = savedRecipe.getIngridients().stream()
                     .filter(element -> element.getDescription().equals(ingredientCommand.getDescription()))
-                    .filter(element->element.getAmount().equals(ingredientCommand.getAmount()))
-                    .filter(element->element.getUnitOfMeasure().getId().equals(ingredientCommand.getUnitOfMeasure().getId()))
+                    .filter(element -> element.getAmount().equals(ingredientCommand.getAmount()))
+                    .filter(element -> element.getUnitOfMeasure().getId().equals(ingredientCommand.getUnitOfMeasure().getId()))
                     .findFirst();
             IngredientCommand finalIngredientCommand = null;
             if (finalingredient.isPresent()) {
@@ -95,5 +98,33 @@ public class IngredientServiceImpl implements IngredientService {
             return finalIngredientCommand;
 //            return new IngredientCommand();
         }
+    }
+
+    @Override
+    public void deleteIngredient(Long id) {
+        Optional<Ingredient> findIngredient = ingredientRepository.findById(id);
+        Ingredient ingredient = null;
+        if (findIngredient.isPresent()) {
+            ingredient = findIngredient.get();
+        } else {
+            throw new RuntimeException("Ingredient Not found");
+        }
+        Optional<Recipe> recipe = recipeRepository.findById(ingredient.getRecipe().getId());
+        Recipe recipe1 = null;
+        if (recipe.isPresent()) {
+            recipe1 = recipe.get();
+        }
+        Recipe updatedRecipe= null;
+        if (recipe1 != null && recipe1.getIngridients() != null) {
+            recipe1.getIngridients().remove(ingredient);
+            recipe1.setIngridients(recipe1.getIngridients());
+            updatedRecipe = recipeRepository.save(recipe1);
+        }
+
+        System.out.println(updatedRecipe);
+
+        ingredient.setRecipe(null);
+        ingredient.setUnitOfMeasure(null);
+        ingredientRepository.delete(ingredient);
     }
 }

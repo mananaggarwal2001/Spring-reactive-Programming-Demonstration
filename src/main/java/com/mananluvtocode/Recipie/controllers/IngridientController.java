@@ -57,7 +57,7 @@ public class IngridientController {
         System.out.println("The filled ingredient is :- " + filledIngredients.getDescription());
         System.out.println("The uom descriptionn is :- " + filledIngredients.getUnitOfMeasure().getId());
         IngredientCommand returnedIngredientCommand = ingredientService.saveIngredientCommand(filledIngredients);
- return "redirect:/recipe/" + recipePath + "/ingredient/" + returnedIngredientCommand.getId() + "/show";
+        return "redirect:/recipe/" + recipePath + "/ingredient/" + returnedIngredientCommand.getId() + "/show";
 //       return "redirect:/";
     }
 
@@ -71,5 +71,13 @@ public class IngridientController {
         ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
         themodel.addAttribute("uomList", unitOfMeasureService.listAllUom());
         return "ingredient/ingredientform";
+    }
+
+    @GetMapping("/recipe/{recipeId}/ingredient/{id}/delete")
+    public String recipeController(@PathVariable("recipeId") Long recipeId, @PathVariable("id") Long ingredientId, Model themodel) {
+        System.out.println(recipeId);
+        System.out.println(ingredientId);
+        ingredientService.deleteIngredient(ingredientId);
+        return "redirect:/recipe/ingredient/" + recipeId;
     }
 }
