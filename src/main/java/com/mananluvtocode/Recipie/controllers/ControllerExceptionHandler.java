@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 // this is used for handling the exception at the global level as it will preprocess the request before sending it for the processing.
-// It will save the duplicacy of the code.
+// It will save the duplicate of the code.
 @ControllerAdvice
 @Slf4j
 public class ControllerExceptionHandler {
