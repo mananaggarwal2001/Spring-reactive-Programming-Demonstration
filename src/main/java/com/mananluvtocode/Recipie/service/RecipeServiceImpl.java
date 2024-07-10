@@ -44,7 +44,7 @@ public class RecipeServiceImpl implements com.mananluvtocode.Recipie.service.Rec
         Optional<Recipe> recipe = recipeRepository.findById(id);
         if (recipe.isEmpty()) {
 //            throw new RuntimeException("Recipe Not Found for the respective Id");
-            throw new NotFoundException("Recipe Not Found!!!!");
+            throw new NotFoundException("Recipe Not Found For ID Value:- " + id);
         }
         return recipe.get();
     }
