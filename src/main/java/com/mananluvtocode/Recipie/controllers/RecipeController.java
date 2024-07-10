@@ -66,26 +66,4 @@ public class RecipeController {
         recipeService.deleteById(numberFormatExceptionHandler(id));
         return "redirect:/";
     }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NotFoundException.class)
-    public ModelAndView showingErrorPage(Exception exception) {
-        log.error("Not Found Error Exception for doing the particular Task");
-        log.error(exception.getMessage());
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("404error");
-        modelAndView.addObject("exception", exception);
-        return modelAndView;
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NumberException.class)
-    public ModelAndView showBadRequestPage(Exception exception) {
-        log.error("The url contains the inappropriate things which can cause the trouble");
-        log.error(exception.getMessage());
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("400error");
-        modelAndView.addObject("exception", exception);
-        return modelAndView;
-    }
 }
