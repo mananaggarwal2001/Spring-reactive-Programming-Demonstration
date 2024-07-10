@@ -5,12 +5,12 @@ import com.mananluvtocode.Recipie.exceptions.NotFoundException;
 import com.mananluvtocode.Recipie.exceptions.NumberException;
 import com.mananluvtocode.Recipie.service.RecipeService;
 import com.mananluvtocode.Recipie.service.RecipeServiceImpl;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @Slf4j
@@ -55,7 +55,11 @@ public class RecipeController {
     }
 
     @PostMapping("/recipe/")
-    public String saveOrUpdateRecipe(@ModelAttribute("recipe") RecipeCommand recipe) {
+    public String saveOrUpdateRecipe(@Valid @ModelAttribute("recipe") RecipeCommand recipe, BindingResult result, Model themodel) {
+        if (result.hasErrors()) {
+            themodel.addAttribute("recipe", recipe);
+            return "recipe/recipeform";
+        }
         RecipeCommand savedRecipe = recipeService.saveRecipeCommand(recipe);
         return "redirect:/recipe/show/" + savedRecipe.getId();
     }

@@ -20,12 +20,16 @@ import java.util.Set;
 public class RecipeCommand {
     private Long id;
 
+    @NotNull
     @NotEmpty
     @Size(min = 3, max = 300)
     private String description;
 
-    @Size(min = 1, max = 255)
+    @Min(value = 1)
+    @Max(value = 255)
     private Integer prepTime;
+
+
     @Min(1)
     @Max(300)
     private Integer cookTime;
