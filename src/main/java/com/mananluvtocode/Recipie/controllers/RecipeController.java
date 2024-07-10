@@ -11,16 +11,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.View;
 
 @Controller
 @Slf4j
 public class RecipeController {
     private final RecipeService recipeService;
     private final RecipeServiceImpl recipeServiceImpl;
+    private final View error;
 
-    public RecipeController(RecipeService recipeService, RecipeServiceImpl recipeServiceImpl) {
+    public RecipeController(RecipeService recipeService, RecipeServiceImpl recipeServiceImpl, View error) {
         this.recipeService = recipeService;
         this.recipeServiceImpl = recipeServiceImpl;
+        this.error = error;
     }
 
     @GetMapping("/recipe/show/{id}")
@@ -57,7 +60,9 @@ public class RecipeController {
     @PostMapping("/recipe/")
     public String saveOrUpdateRecipe(@Valid @ModelAttribute("recipe") RecipeCommand recipe, BindingResult result, Model themodel) {
         if (result.hasErrors()) {
-            themodel.addAttribute("recipe", recipe);
+            result.getAllErrors().forEach(errors -> {
+                log.debug(errors.toString());
+            });
             return "recipe/recipeform";
         }
         RecipeCommand savedRecipe = recipeService.saveRecipeCommand(recipe);
