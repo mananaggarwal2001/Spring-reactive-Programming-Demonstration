@@ -5,6 +5,7 @@ import com.mananluvtocode.Recipie.converters.RecipeCommandToRecipe;
 import com.mananluvtocode.Recipie.converters.RecipeToRecipeCommand;
 import com.mananluvtocode.Recipie.domain.Ingredient;
 import com.mananluvtocode.Recipie.domain.Recipe;
+import com.mananluvtocode.Recipie.exceptions.NotFoundException;
 import com.mananluvtocode.Recipie.repositories.RecipeRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -42,7 +43,8 @@ public class RecipeServiceImpl implements com.mananluvtocode.Recipie.service.Rec
     public Recipe findById(Long id) {
         Optional<Recipe> recipe = recipeRepository.findById(id);
         if (recipe.isEmpty()) {
-            throw new RuntimeException("Recipe Not Found for the respective Id");
+//            throw new RuntimeException("Recipe Not Found for the respective Id");
+            throw new NotFoundException("Recipe Not Found!!!!");
         }
         return recipe.get();
     }
@@ -71,7 +73,7 @@ public class RecipeServiceImpl implements com.mananluvtocode.Recipie.service.Rec
 
     @Override
     public Set<Ingredient> getIngridientByRecipeId(Long recipeId) {
-        Recipe finalRecipe= findById(recipeId);
+        Recipe finalRecipe = findById(recipeId);
         return finalRecipe.getIngridients();
     }
 }

@@ -1,13 +1,10 @@
 package com.mananluvtocode.Recipie.controllers;
 
 import com.mananluvtocode.Recipie.commands.RecipeCommand;
-import com.mananluvtocode.Recipie.domain.Recipe;
 import com.mananluvtocode.Recipie.service.ImageService;
 import com.mananluvtocode.Recipie.service.RecipeService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +17,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Arrays;
 
 
 @Controller
