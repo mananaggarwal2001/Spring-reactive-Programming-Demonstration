@@ -24,6 +24,7 @@ jobs:
       - run:
           name: Build
           command: mvn -B -DskipTests clean package
+      - codecov/upload
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
