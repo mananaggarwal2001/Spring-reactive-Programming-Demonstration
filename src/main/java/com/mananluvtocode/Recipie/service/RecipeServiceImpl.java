@@ -8,9 +8,8 @@ import com.mananluvtocode.Recipie.domain.Recipe;
 import com.mananluvtocode.Recipie.exceptions.NotFoundException;
 import com.mananluvtocode.Recipie.repositories.RecipeRepository;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -25,6 +24,7 @@ public class RecipeServiceImpl implements com.mananluvtocode.Recipie.service.Rec
     private final RecipeToRecipeCommand recipeCommand;
     private final RecipeToRecipeCommand recipeToRecipeCommand;
 
+    @Autowired
     public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeCommandToRecipe recipe, RecipeToRecipeCommand recipeCommand, RecipeToRecipeCommand recipeToRecipeCommand) {
         this.recipeRepository = recipeRepository;
         this.recipe = recipe;

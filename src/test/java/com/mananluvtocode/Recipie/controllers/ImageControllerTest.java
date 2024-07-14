@@ -34,13 +34,12 @@ public class ImageControllerTest {
     Recipe recipe;
     @Before
     public void setUp() throws Exception {
-
         mockMvc= MockMvcBuilders.standaloneSetup(imageController).build();
     }
 
     @Test
     public void showUploadForm() throws Exception {
-        when(recipeService.findCommandById(anyLong())).thenReturn(RecipeCommand.builder().id(1L).build());
+
     }
 
     @Test
