@@ -27,6 +27,8 @@ jobs:
       - run:
           name: Build
           command: mvn -B -DskipTests clean package
+      - env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - codecov/upload
 
 # Orchestrate jobs using workflows
