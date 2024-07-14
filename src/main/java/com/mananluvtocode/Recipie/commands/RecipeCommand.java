@@ -2,6 +2,7 @@ package com.mananluvtocode.Recipie.commands;
 
 import com.mananluvtocode.Recipie.domain.Difficulty;
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -51,4 +52,11 @@ public class RecipeCommand {
     private NotesCommand notes;
     private Blob image;
     private Set<CategoryCommand> categories = new HashSet<>();
+
+    @Builder
+    public RecipeCommand(Long id) {
+        if (id != null) {
+            this.id = id;
+        }
+    }
 }

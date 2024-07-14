@@ -10,6 +10,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @ToString
 public class Recipe {
     @Id
@@ -44,7 +45,12 @@ public class Recipe {
     @JoinTable(name = "recipe_categories"
             , joinColumns = @JoinColumn(name = "recipe_id")
             , inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<Category> categories= new HashSet<>();
+    private Set<Category> categories = new HashSet<>();
+
+    @Builder
+    public Recipe(Long id) {
+        this.id = id;
+    }
 
     public void addIngredient(Ingredient ripeAvocados) {
         Set<Ingredient> ingridients = this.getIngridients();
