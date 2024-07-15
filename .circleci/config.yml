@@ -12,4 +12,4 @@ jobs:
     docker:
       # Specify the version you desire here
       # See: https://circleci.com/developer/images/image/cimg/openjdk
-      - image: cimg/openjdk:18.0
+      - image: cimg/openjdk:17.0
