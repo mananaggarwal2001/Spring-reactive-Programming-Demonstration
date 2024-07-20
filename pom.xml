@@ -77,6 +77,8 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.sun/tools -->
+
 		<!-- https://mvnrepository.com/artifact/org.codehaus.mojo/cobertura-maven-plugin -->
 		<dependency>
 			<groupId>org.codehaus.mojo</groupId>
@@ -85,8 +87,8 @@
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
-					<artifactId>tools</artifactId>
 					<groupId>com.sun</groupId>
+					<artifactId>tools</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
