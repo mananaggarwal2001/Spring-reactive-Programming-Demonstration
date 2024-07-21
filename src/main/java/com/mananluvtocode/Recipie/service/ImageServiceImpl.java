@@ -2,9 +2,9 @@ package com.mananluvtocode.Recipie.service;
 
 import com.mananluvtocode.Recipie.domain.Recipe;
 import com.mananluvtocode.Recipie.repositories.RecipeRepository;
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -23,7 +23,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     @Transactional
-    public void saveImageFile(Long recipeId, MultipartFile file) {
+    public void saveImageFile(String recipeId, MultipartFile file) {
         try {
             Optional<Recipe> recipe = recipeRepository.findById(recipeId);
             Recipe finalrecipe = recipe.get();

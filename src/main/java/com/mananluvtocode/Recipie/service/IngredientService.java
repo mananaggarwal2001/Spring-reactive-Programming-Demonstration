@@ -4,8 +4,10 @@ import com.mananluvtocode.Recipie.commands.IngredientCommand;
 import com.mananluvtocode.Recipie.domain.Ingredient;
 
 public interface IngredientService {
-    IngredientCommand findByRecipeIdAndId(Long recipeId, Long id);
+
+    IngredientCommand findByRecipeIdAndId(String recipeId, String id);
+
     IngredientCommand saveIngredientCommand(IngredientCommand ingredientCommand);
 
-    void deleteIngredient(Long id);
+    void deleteIngredient(String id);
 }

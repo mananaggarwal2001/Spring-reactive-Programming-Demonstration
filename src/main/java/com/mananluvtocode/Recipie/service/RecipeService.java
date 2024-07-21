@@ -7,14 +7,14 @@ import com.mananluvtocode.Recipie.domain.Recipe;
 import java.util.Set;
 
 public interface RecipeService {
-    public Set<Recipe> getAllRecipes();
+    Set<Recipe> getAllRecipes();
 
-    Recipe findById(Long id);
+    Recipe findById(String id);
 
     RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand);
 
-    RecipeCommand findCommandById(Long id);
-    void deleteById(Long idToDelete);
+    RecipeCommand findCommandById(String id);
+    void deleteById(String idToDelete);
 
-    Set<Ingredient> getIngridientByRecipeId(Long recipeId);
+    Set<Ingredient> getIngridientByRecipeId(String recipeId);
 }

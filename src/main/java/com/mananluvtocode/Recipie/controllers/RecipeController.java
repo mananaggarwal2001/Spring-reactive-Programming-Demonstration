@@ -1,7 +1,6 @@
 package com.mananluvtocode.Recipie.controllers;
 
 import com.mananluvtocode.Recipie.commands.RecipeCommand;
-import com.mananluvtocode.Recipie.exceptions.NotFoundException;
 import com.mananluvtocode.Recipie.exceptions.NumberException;
 import com.mananluvtocode.Recipie.service.RecipeService;
 import com.mananluvtocode.Recipie.service.RecipeServiceImpl;
@@ -12,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.View;
+
+import java.util.UUID;
 
 @Controller
 @Slf4j
@@ -28,8 +29,8 @@ public class RecipeController {
 
     @GetMapping("/recipe/show/{id}")
     public String showByid(@PathVariable("id") String id, Model themodel) {
-        Long finalid = numberFormatExceptionHandler(id);
-        themodel.addAttribute("recipe", recipeService.findById(finalid));
+        System.out.println(recipeService.findById(id));
+        themodel.addAttribute("recipe", recipeService.findById(id));
         return "recipe/show";
     }
 
@@ -52,8 +53,8 @@ public class RecipeController {
 
     @GetMapping("/recipe/update/{id}")
     public String getRecipeUpdateForm(@PathVariable("id") String id, Model themodel) {
-        Long finalId = numberFormatExceptionHandler(id);
-        themodel.addAttribute("recipe", recipeService.findCommandById(finalId));
+
+        themodel.addAttribute("recipe", recipeService.findCommandById(id));
         return "recipe/recipeform";
     }
 
@@ -65,6 +66,9 @@ public class RecipeController {
             });
             return "recipe/recipeform";
         }
+        if (recipe.getId().isEmpty()) {
+            recipe.setId(UUID.randomUUID().toString());
+        }
         RecipeCommand savedRecipe = recipeService.saveRecipeCommand(recipe);
         return "redirect:/recipe/show/" + savedRecipe.getId();
     }
@@ -72,7 +76,7 @@ public class RecipeController {
     // for delete endpoint we must do this thing which is :-
     @GetMapping("/recipe/delete/{id}")
     public String deleteRecipe(@PathVariable("id") String id) {
-        recipeService.deleteById(numberFormatExceptionHandler(id));
+        recipeService.deleteById(id);
         return "redirect:/";
     }
 }

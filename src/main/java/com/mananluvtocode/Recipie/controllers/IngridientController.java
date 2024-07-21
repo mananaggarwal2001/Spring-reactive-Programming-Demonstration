@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Controller
 public class IngridientController {
@@ -29,7 +30,7 @@ public class IngridientController {
     }
 
     @GetMapping("/recipe/ingredient/{recipeId}")
-    public String ingridient(@PathVariable Long recipeId, Model model) {
+    public String ingridient(@PathVariable String recipeId, Model model) {
         model.addAttribute("recipe", recipeService.findById(recipeId));
         model.addAttribute("recipeId", recipeId);
         return "ingredient/list";
@@ -37,14 +38,14 @@ public class IngridientController {
 
     // for showing the recipe ingredient
     @GetMapping("/recipe/{recipeId}/ingredient/{id}/show")
-    public String showIngredient(@PathVariable("recipeId") Long recipeId, @PathVariable("id") Long id, Model model) {
+    public String showIngredient(@PathVariable("recipeId") String recipeId, @PathVariable("id") String id, Model model) {
         model.addAttribute("ingredient", ingredientService.findByRecipeIdAndId(recipeId, id));
         return "ingredient/show";
     }
 
 
     @GetMapping("/recipe/{recipeId}/ingredient/{id}/update")
-    public String showUpdateIngredientform(@PathVariable("recipeId") Long recipeId, @PathVariable("id") Long id, Model themodel) {
+    public String showUpdateIngredientform(@PathVariable("recipeId") String recipeId, @PathVariable("id") String id, Model themodel) {
         themodel.addAttribute("ingredient", ingredientService.findByRecipeIdAndId(recipeId, id));
         themodel.addAttribute("uomList", unitOfMeasureService.listAllUom());
         themodel.addAttribute("recipeId", recipeId);
@@ -52,10 +53,14 @@ public class IngridientController {
     }
 
     @PostMapping("recipe/{recipeId}/ingredient")
-    public String updateTheIngredients(@PathVariable("recipeId") Long recipePath, @ModelAttribute("ingredient") IngredientCommand filledIngredients) {
+    public String updateTheIngredients(@PathVariable("recipeId") String recipePath, @ModelAttribute("ingredient") IngredientCommand filledIngredients) {
         System.out.println(recipePath);
         System.out.println("The filled ingredient is :- " + filledIngredients.getDescription());
         System.out.println("The uom descriptionn is :- " + filledIngredients.getUnitOfMeasure().getId());
+        System.out.println("Form post mapping this is being displayed:- " + filledIngredients.getId());
+        if (filledIngredients.getId().isEmpty()) {
+            filledIngredients.setId(UUID.randomUUID().toString());
+        }
         IngredientCommand returnedIngredientCommand = ingredientService.saveIngredientCommand(filledIngredients);
         return "redirect:/recipe/" + recipePath + "/ingredient/" + returnedIngredientCommand.getId() + "/show";
 //       return "redirect:/";
@@ -63,7 +68,7 @@ public class IngridientController {
 
     // for creting the new recipe controller for doing the stuffs right.
     @GetMapping("recipe/{recipeId}/ingredient/new")
-    public String createNewRecipe(@PathVariable("recipeId") Long recipeId, Model themodel) {
+    public String createNewRecipe(@PathVariable("recipeId") String recipeId, Model themodel) {
         System.out.println(recipeId);
         IngredientCommand ingredientCommand = new IngredientCommand();
         ingredientCommand.setRecipeId(recipeId);
@@ -74,7 +79,7 @@ public class IngridientController {
     }
 
     @GetMapping("/recipe/{recipeId}/ingredient/{id}/delete")
-    public String recipeController(@PathVariable("recipeId") Long recipeId, @PathVariable("id") Long ingredientId, Model themodel) {
+    public String recipeController(@PathVariable("recipeId") String recipeId, @PathVariable("id") String ingredientId, Model themodel) {
         System.out.println(recipeId);
         System.out.println(ingredientId);
         ingredientService.deleteIngredient(ingredientId);

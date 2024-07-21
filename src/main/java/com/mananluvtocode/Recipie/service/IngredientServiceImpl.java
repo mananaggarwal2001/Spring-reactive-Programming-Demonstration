@@ -1,7 +1,6 @@
 package com.mananluvtocode.Recipie.service;
 
 import com.mananluvtocode.Recipie.commands.IngredientCommand;
-import com.mananluvtocode.Recipie.commands.RecipeCommand;
 import com.mananluvtocode.Recipie.converters.IngredientCommandToIngredient;
 import com.mananluvtocode.Recipie.converters.IngredientToIngredientCommand;
 import com.mananluvtocode.Recipie.converters.RecipeCommandToRecipe;
@@ -11,12 +10,11 @@ import com.mananluvtocode.Recipie.domain.Recipe;
 import com.mananluvtocode.Recipie.repositories.IngredientRepository;
 import com.mananluvtocode.Recipie.repositories.RecipeRepository;
 import com.mananluvtocode.Recipie.repositories.UnitOfMeasureRepository;
-import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 @Service
@@ -41,7 +39,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public IngredientCommand findByRecipeIdAndId(Long recipeId, Long id) {
+    public IngredientCommand findByRecipeIdAndId(String recipeId, String id) {
         Optional<Recipe> recipe = recipeRepository.findById(recipeId);
         if (recipe.isEmpty()) {
             log.debug("Recipe not found ");
@@ -82,7 +80,6 @@ public class IngredientServiceImpl implements IngredientService {
             } else {
                 // add new ingredient for the recipe.
                 Ingredient originalIngredient = ingredientCommandToIngredient.convert(ingredientCommand);
-                originalIngredient.setRecipe(originalRecipe);
                 originalRecipe.addIngredient(originalIngredient);
             }
             Recipe savedRecipe = recipeRepository.save(originalRecipe);
@@ -101,7 +98,8 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public void deleteIngredient(Long id) {
+    @Transactional
+    public void deleteIngredient(String id) {
         Optional<Ingredient> findIngredient = ingredientRepository.findById(id);
         Ingredient ingredient = null;
         if (findIngredient.isPresent()) {

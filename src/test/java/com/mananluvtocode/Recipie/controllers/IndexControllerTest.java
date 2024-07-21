@@ -1,6 +1,4 @@
 package com.mananluvtocode.Recipie.controllers;
-
-import com.mananluvtocode.Recipie.commands.RecipeCommand;
 import com.mananluvtocode.Recipie.domain.Recipe;
 import com.mananluvtocode.Recipie.service.RecipeService;
 import org.junit.Before;
@@ -14,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 public class IndexControllerTest {
@@ -30,8 +29,8 @@ public class IndexControllerTest {
     @Before
     public void setUp() throws Exception {
         recipes = new HashSet<>();
-        recipes.add(Recipe.builder().id(1L).cookTime(2).build());
-        recipes.add(Recipe.builder().id(2L).cookTime(10).build());
+        recipes.add(Recipe.builder().id(anyString()).cookTime(2).build());
+        recipes.add(Recipe.builder().id(anyString()).cookTime(10).build());
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 

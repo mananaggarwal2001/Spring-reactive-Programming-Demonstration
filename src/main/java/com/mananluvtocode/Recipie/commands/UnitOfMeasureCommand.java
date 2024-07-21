@@ -13,6 +13,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class UnitOfMeasureCommand {
-    private Long id;
+    private String id;
     private String description;
 }

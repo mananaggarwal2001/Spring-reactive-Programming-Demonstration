@@ -1,27 +1,26 @@
 package com.mananluvtocode.Recipie.domain;
 
-import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.math.BigDecimal;
-import java.util.Set;
+import java.util.UUID;
 
-@Entity
 @Getter
 @Setter
 //@EqualsAndHashCode(exclude = {"recipe"})
 public class Ingredient {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id = UUID.randomUUID().toString();
 
     private String description;
     private BigDecimal amount;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "recipe_id")
+
+    @DBRef
     private Recipe recipe;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "unit_of_measure_id")
+
+    @DBRef
     private UnitOfMeasure unitOfMeasure;
 
     public Ingredient(String description, BigDecimal amount, UnitOfMeasure unitOfMeasure) {
@@ -29,6 +28,7 @@ public class Ingredient {
         this.amount = amount;
         this.unitOfMeasure = unitOfMeasure;
     }
+
 
     public Ingredient() {
     }

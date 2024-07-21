@@ -1,20 +1,24 @@
 package com.mananluvtocode.Recipie.domain;
 
-import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.sql.Blob;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
-@Entity
+@Document(collection = "recipe")
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Recipe {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id = UUID.randomUUID().toString();
     private String description;
     private Integer prepTime;
     private Integer cookTime;
@@ -23,31 +27,20 @@ public class Recipe {
     private String url;
     private String directions;
     // mapped by is the property of the child class.
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<Ingredient> ingridients;
-
-    @Enumerated(value = EnumType.STRING)
+    private Set<Ingredient> ingridients = new HashSet<>();
     private Difficulty difficulty;
 
     // Blob meaning Binary Large objects it is to allow database to Store the data more than 255 characters like image and all stuffs.
     // this also known as the large object fields.
     // this annotation is used for storing the large objects which can has more than 255 characters of the value for doing the work.
-    @Getter
-    @Lob
     private Blob image;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "notes_id")
     private Notes notes;
 
-    @ManyToMany
-    @JoinTable(name = "recipe_categories"
-            , joinColumns = @JoinColumn(name = "recipe_id")
-            , inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @DBRef
     private Set<Category> categories = new HashSet<>();
 
     @Builder
-    public Recipe(Long id, String description, Integer prepTime, Integer cookTime, Integer servings, String source, String url, String directions, Difficulty difficulty) {
+    public Recipe(String id, String description, Integer prepTime, Integer cookTime, Integer servings, String source, String url, String directions, Difficulty difficulty) {
         this.id = id;
         this.description = description;
         this.prepTime = prepTime;

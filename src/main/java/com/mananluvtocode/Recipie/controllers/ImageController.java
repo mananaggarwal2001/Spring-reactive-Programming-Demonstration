@@ -30,20 +30,20 @@ public class ImageController {
     }
 
     @GetMapping("/recipe/{id}/image")
-    public String showUploadForm(@PathVariable Long id, Model model) {
+    public String showUploadForm(@PathVariable String id, Model model) {
         model.addAttribute("recipe", recipeService.findCommandById(id));
         return "recipe/imageuploadform";
     }
 
     @PostMapping("/recipe/{id}/image")
-    public String handImagePost(@PathVariable Long id, @RequestParam("imagefile") MultipartFile file) {
+    public String handImagePost(@PathVariable String id, @RequestParam("imagefile") MultipartFile file) {
         imageService.saveImageFile(id, file);
         return "redirect:/recipe/show/" + id;
     }
 
     // for showing the image in the frontend for doing the things right.
     @GetMapping("recipe/{id}/recipeImage")
-    public void renderImageFromDB(@PathVariable("id") Long recipeId, HttpServletResponse response) throws IOException, SQLException {
+    public void renderImageFromDB(@PathVariable("id") String recipeId, HttpServletResponse response) throws IOException, SQLException {
         RecipeCommand recipeCommand = recipeService.findCommandById(recipeId);
         byte[] byteArray = recipeCommand.getImage().getBytes(1L, (int) recipeCommand.getImage().length());
         response.setContentType("image/png");

@@ -7,10 +7,11 @@ import com.mananluvtocode.Recipie.domain.Ingredient;
 import com.mananluvtocode.Recipie.domain.Recipe;
 import com.mananluvtocode.Recipie.exceptions.NotFoundException;
 import com.mananluvtocode.Recipie.repositories.RecipeRepository;
-import jakarta.transaction.Transactional;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -40,7 +41,7 @@ public class RecipeServiceImpl implements com.mananluvtocode.Recipie.service.Rec
     }
 
     @Override
-    public Recipe findById(Long id) {
+    public Recipe findById(String id) {
         Optional<Recipe> recipe = recipeRepository.findById(id);
         if (recipe.isEmpty()) {
 //            throw new RuntimeException("Recipe Not Found for the respective Id");
@@ -61,18 +62,18 @@ public class RecipeServiceImpl implements com.mananluvtocode.Recipie.service.Rec
 
     @Override
     @Transactional
-    public RecipeCommand findCommandById(Long id) {
+    public RecipeCommand findCommandById(String id) {
         return recipeCommand.convert(findById(id));
     }
 
     @Override
     @Transactional
-    public void deleteById(Long idToDelete) {
+    public void deleteById(String idToDelete) {
         recipeRepository.deleteById(idToDelete);
     }
 
     @Override
-    public Set<Ingredient> getIngridientByRecipeId(Long recipeId) {
+    public Set<Ingredient> getIngridientByRecipeId(String recipeId) {
         Recipe finalRecipe = findById(recipeId);
         return finalRecipe.getIngridients();
     }

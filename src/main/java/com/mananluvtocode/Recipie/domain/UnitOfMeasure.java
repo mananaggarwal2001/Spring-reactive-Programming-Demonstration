@@ -1,19 +1,20 @@
 package com.mananluvtocode.Recipie.domain;
 
-import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
-@Entity
+@Document(collection = "unitOfMeasure")
 public class UnitOfMeasure {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id = UUID.randomUUID().toString();
     private String description;
-    @OneToMany(mappedBy = "unitOfMeasure")
-    private Set<Ingredient> ingredient;
 
 }

@@ -19,7 +19,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 public class RecipeCommand {
-    private Long id;
+    private String id;
 
     @NotNull
     @NotEmpty
@@ -54,7 +54,7 @@ public class RecipeCommand {
     private Set<CategoryCommand> categories = new HashSet<>();
 
     @Builder
-    public RecipeCommand(Long id) {
+    public RecipeCommand(String id) {
         if (id != null) {
             this.id = id;
         }

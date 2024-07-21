@@ -1,20 +1,22 @@
 package com.mananluvtocode.Recipie.domain;
 
-import jakarta.persistence.*;
-import lombok.*;
 
-@Entity
+import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
+import java.util.UUID;
+
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"recipe"})
+//@EqualsAndHashCode(exclude = {"recipe"})
 public class Notes {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id= UUID.randomUUID().toString();
 
-    @OneToOne(mappedBy = "notes")
+    @DBRef
     private Recipe recipe;
 
-    @Lob // this annotation is used for the large objects to tell the database that this can exceed more than 255 characters.
+    // this annotation is used for the large objects to tell the database that this can exceed more than 255 characters.
     private String description;
 }
