@@ -33,17 +33,10 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<version>1.18.20</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.sun/tools -->
 		<!-- https://mvnrepository.com/artifact/com.sun/tools -->
-		<dependency>
-			<groupId>com.sun</groupId>
-			<artifactId>tools</artifactId>
-			<scope>system</scope>
-			<version>1.8</version>
-			<systemPath>${java.home}/../lib/tools.jar</systemPath>
-		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
