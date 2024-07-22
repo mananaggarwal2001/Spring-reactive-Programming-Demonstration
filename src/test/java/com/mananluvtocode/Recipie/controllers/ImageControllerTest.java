@@ -2,8 +2,8 @@ package com.mananluvtocode.Recipie.controllers;
 import com.mananluvtocode.Recipie.domain.Recipe;
 import com.mananluvtocode.Recipie.service.ImageService;
 import com.mananluvtocode.Recipie.service.RecipeService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -22,7 +22,7 @@ public class ImageControllerTest {
     MockMvc mockMvc;
 
     Recipe recipe;
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         mockMvc= MockMvcBuilders.standaloneSetup(imageController).build();
     }

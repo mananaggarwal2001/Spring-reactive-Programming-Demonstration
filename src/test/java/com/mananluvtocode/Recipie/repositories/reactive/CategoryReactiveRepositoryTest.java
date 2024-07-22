@@ -1,24 +1,23 @@
 package com.mananluvtocode.Recipie.repositories.reactive;
 
 import com.mananluvtocode.Recipie.domain.Category;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.swing.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import static org.junit.Assert.*;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @DataMongoTest
 public class CategoryReactiveRepositoryTest {
     @Autowired
     CategoryReactiveRepository categoryReactiveRepository;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         categoryReactiveRepository.deleteAll().block();
     }
