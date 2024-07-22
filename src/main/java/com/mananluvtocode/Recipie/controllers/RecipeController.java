@@ -1,4 +1,5 @@
 package com.mananluvtocode.Recipie.controllers;
+
 import com.mananluvtocode.Recipie.commands.RecipeCommand;
 import com.mananluvtocode.Recipie.exceptions.NumberException;
 import com.mananluvtocode.Recipie.service.RecipeService;
@@ -67,6 +68,9 @@ public class RecipeController {
         }
         if (recipe.getId().isEmpty()) {
             recipe.setId(UUID.randomUUID().toString());
+        }
+        if (recipe.getNotes().getId().isEmpty()) {
+            recipe.getNotes().setId(UUID.randomUUID().toString());
         }
         RecipeCommand savedRecipe = recipeService.saveRecipeCommand(recipe);
         return "redirect:/recipe/show/" + savedRecipe.getId();

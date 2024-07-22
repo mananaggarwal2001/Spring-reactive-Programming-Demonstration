@@ -8,7 +8,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class unitOfMeasureToUnitOfMeasureCommandConverter implements Converter<UnitOfMeasure, UnitOfMeasureCommand> {
+public class UnitOfMeasureToUnitOfMeasureCommandConverter implements Converter<UnitOfMeasure, UnitOfMeasureCommand> {
     @Synchronized
     @Nullable
     @Override

@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import reactor.core.publisher.Flux;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -47,7 +49,8 @@ public class IngridientController {
     @GetMapping("/recipe/{recipeId}/ingredient/{id}/update")
     public String showUpdateIngredientform(@PathVariable("recipeId") String recipeId, @PathVariable("id") String id, Model themodel) {
         themodel.addAttribute("ingredient", ingredientService.findByRecipeIdAndId(recipeId, id));
-        themodel.addAttribute("uomList", unitOfMeasureService.listAllUom());
+        List<UnitOfMeasureCommand> unitOfMeasureList= unitOfMeasureService.listAllUom().collectList().block();
+        themodel.addAttribute("uomList", unitOfMeasureList);
         themodel.addAttribute("recipeId", recipeId);
         return "ingredient/ingredientform";
     }
@@ -74,7 +77,7 @@ public class IngridientController {
         ingredientCommand.setRecipeId(recipeId);
         themodel.addAttribute("ingredient", ingredientCommand);
         ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
-        themodel.addAttribute("uomList", unitOfMeasureService.listAllUom());
+        themodel.addAttribute("uomList", unitOfMeasureService.listAllUom().collectList().block());
         return "ingredient/ingredientform";
     }
 
@@ -82,7 +85,7 @@ public class IngridientController {
     public String recipeController(@PathVariable("recipeId") String recipeId, @PathVariable("id") String ingredientId, Model themodel) {
         System.out.println(recipeId);
         System.out.println(ingredientId);
-        ingredientService.deleteIngredient(ingredientId);
+        ingredientService.deleteIngredient(ingredientId, recipeId);
         return "redirect:/recipe/ingredient/" + recipeId;
     }
 }
