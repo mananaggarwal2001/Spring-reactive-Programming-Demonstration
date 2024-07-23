@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import reactor.core.publisher.Flux;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,8 +23,8 @@ public class IndexController {
 
     @RequestMapping({"", "/", "index"})
     public String getIndexPage(Model themodel) {
-        Set<Recipe> recipes = new HashSet<>(recipeService.getAllRecipes());
-        themodel.addAttribute("recipes", recipes);
+        Flux<Recipe> recipes = recipeService.getAllRecipes();
+        themodel.addAttribute("recipes", recipes.collectList().block());
         log.debug("Getting the index page for this controller and then showing in the frontend.");
         return "index";
     }

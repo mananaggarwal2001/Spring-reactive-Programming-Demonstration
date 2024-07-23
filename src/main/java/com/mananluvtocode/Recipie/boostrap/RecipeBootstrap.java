@@ -52,9 +52,9 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         log.error("Category Repository Count:- {}", categoryReactiveRepository.count().block().toString());
         log.error("Recipe count for doing the stuffs:- {}", recipeReactiveRepository.count().block().toString());
 
-        loadCategories();
-        loadUom();
-        recipeRepository.saveAll(getRecipes());
+//        loadCategories();
+//        loadUom();
+//        recipeRepository.saveAll(getRecipes());
         log.debug("Loading Bootstrap Data");
     }
 

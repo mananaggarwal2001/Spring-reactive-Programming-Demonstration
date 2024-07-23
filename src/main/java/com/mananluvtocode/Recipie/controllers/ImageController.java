@@ -31,21 +31,25 @@ public class ImageController {
 
     @GetMapping("/recipe/{id}/image")
     public String showUploadForm(@PathVariable String id, Model model) {
-        model.addAttribute("recipe", recipeService.findCommandById(id));
+        model.addAttribute("recipe", recipeService.findCommandById(id).block());
         return "recipe/imageuploadform";
     }
 
     @PostMapping("/recipe/{id}/image")
     public String handImagePost(@PathVariable String id, @RequestParam("imagefile") MultipartFile file) {
-        imageService.saveImageFile(id, file);
+        imageService.saveImageFile(id, file).block();
         return "redirect:/recipe/show/" + id;
     }
 
     // for showing the image in the frontend for doing the things right.
     @GetMapping("recipe/{id}/recipeImage")
     public void renderImageFromDB(@PathVariable("id") String recipeId, HttpServletResponse response) throws IOException, SQLException {
-        RecipeCommand recipeCommand = recipeService.findCommandById(recipeId);
-        byte[] byteArray = recipeCommand.getImage().getBytes(1L, (int) recipeCommand.getImage().length());
+        RecipeCommand recipeCommand = recipeService.findCommandById(recipeId).block();
+        byte[] byteArray = new byte[recipeCommand.getImage().length];
+        int i = 0;
+        for (byte b : recipeCommand.getImage()) {
+            byteArray[i++] = b;
+        }
         response.setContentType("image/png");
         InputStream is = new ByteArrayInputStream(byteArray);
         // maven is providing this to convert this input stream to the respective output stream for doing the things right.

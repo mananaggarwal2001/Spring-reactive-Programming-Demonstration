@@ -1,20 +1,19 @@
 package com.mananluvtocode.Recipie.service;
 
 import com.mananluvtocode.Recipie.commands.RecipeCommand;
-import com.mananluvtocode.Recipie.domain.Ingredient;
 import com.mananluvtocode.Recipie.domain.Recipe;
-
-import java.util.Set;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface RecipeService {
-    Set<Recipe> getAllRecipes();
+    Flux<Recipe> getAllRecipes();
 
-    Recipe findById(String id);
+    Mono<Recipe> findById(String id);
 
     RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand);
 
-    RecipeCommand findCommandById(String id);
+    Mono<RecipeCommand> findCommandById(String id);
     void deleteById(String idToDelete);
 
-    Set<Ingredient> getIngridientByRecipeId(String recipeId);
+    Mono<Recipe> getIngridientByRecipeId(String recipeId);
 }
