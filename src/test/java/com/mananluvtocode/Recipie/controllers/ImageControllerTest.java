@@ -8,6 +8,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -19,12 +21,12 @@ public class ImageControllerTest {
     ImageService imageService;
     @InjectMocks
     ImageController imageController;
-    MockMvc mockMvc;
+    WebTestClient webTestClient;
 
     Recipe recipe;
     @BeforeEach
     public void setUp() throws Exception {
-        mockMvc= MockMvcBuilders.standaloneSetup(imageController).build();
+        webTestClient = WebTestClient.bindToController(imageController).build();
     }
 
     @Test

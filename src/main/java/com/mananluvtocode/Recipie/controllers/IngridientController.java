@@ -1,10 +1,8 @@
 package com.mananluvtocode.Recipie.controllers;
-
 import com.mananluvtocode.Recipie.commands.IngredientCommand;
 import com.mananluvtocode.Recipie.commands.UnitOfMeasureCommand;
-import com.mananluvtocode.Recipie.domain.Ingredient;
-import com.mananluvtocode.Recipie.domain.UnitOfMeasure;
 import com.mananluvtocode.Recipie.service.IngredientService;
+import com.mananluvtocode.Recipie.service.IngredientServiceImpl;
 import com.mananluvtocode.Recipie.service.RecipeService;
 import com.mananluvtocode.Recipie.service.UnitOfMeasureService;
 import org.springframework.stereotype.Controller;
@@ -14,9 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Controller
@@ -24,15 +21,18 @@ public class IngridientController {
     private final RecipeService recipeService;
     private final IngredientService ingredientService;
     private final UnitOfMeasureService unitOfMeasureService;
+    private final IngredientServiceImpl ingredientServiceImpl;
 
-    public IngridientController(RecipeService recipeService, IngredientService ingredientService, UnitOfMeasureService unitOfMeasureService) {
+    public IngridientController(RecipeService recipeService, IngredientService ingredientService, UnitOfMeasureService unitOfMeasureService, IngredientServiceImpl ingredientServiceImpl) {
         this.recipeService = recipeService;
         this.ingredientService = ingredientService;
         this.unitOfMeasureService = unitOfMeasureService;
+        this.ingredientServiceImpl = ingredientServiceImpl;
     }
 
     @GetMapping("/recipe/ingredient/{recipeId}")
     public String ingridient(@PathVariable String recipeId, Model model) {
+        // this returns the mono and thymeleaf template engine is going to handle that mono in the frontend for fetching the real object from that mono.
         model.addAttribute("recipe", recipeService.findById(recipeId));
         model.addAttribute("recipeId", recipeId);
         return "ingredient/list";
@@ -41,7 +41,7 @@ public class IngridientController {
     // for showing the recipe ingredient
     @GetMapping("/recipe/{recipeId}/ingredient/{id}/show")
     public String showIngredient(@PathVariable("recipeId") String recipeId, @PathVariable("id") String id, Model model) {
-        model.addAttribute("ingredient", ingredientService.findByRecipeIdAndId(recipeId, id));
+        model.addAttribute("ingredient", ingredientService.findByRecipeIdAndId(recipeId, id).subscribe());
         return "ingredient/show";
     }
 
@@ -49,7 +49,7 @@ public class IngridientController {
     @GetMapping("/recipe/{recipeId}/ingredient/{id}/update")
     public String showUpdateIngredientform(@PathVariable("recipeId") String recipeId, @PathVariable("id") String id, Model themodel) {
         themodel.addAttribute("ingredient", ingredientService.findByRecipeIdAndId(recipeId, id));
-        List<UnitOfMeasureCommand> unitOfMeasureList= unitOfMeasureService.listAllUom().collectList().block();
+        Flux<UnitOfMeasureCommand> unitOfMeasureList= unitOfMeasureService.listAllUom();
         themodel.addAttribute("uomList", unitOfMeasureList);
         themodel.addAttribute("recipeId", recipeId);
         return "ingredient/ingredientform";
@@ -57,15 +57,12 @@ public class IngridientController {
 
     @PostMapping("recipe/{recipeId}/ingredient")
     public String updateTheIngredients(@PathVariable("recipeId") String recipePath, @ModelAttribute("ingredient") IngredientCommand filledIngredients) {
-        System.out.println(recipePath);
-        System.out.println("The filled ingredient is :- " + filledIngredients.getDescription());
-        System.out.println("The uom descriptionn is :- " + filledIngredients.getUnitOfMeasure().getId());
-        System.out.println("Form post mapping this is being displayed:- " + filledIngredients.getId());
+        String id= UUID.randomUUID().toString();
         if (filledIngredients.getId().isEmpty()) {
-            filledIngredients.setId(UUID.randomUUID().toString());
+            filledIngredients.setId(id);
         }
-        IngredientCommand returnedIngredientCommand = ingredientService.saveIngredientCommand(filledIngredients);
-        return "redirect:/recipe/" + recipePath + "/ingredient/" + returnedIngredientCommand.getId() + "/show";
+        ingredientServiceImpl.saveIngredientCommand(filledIngredients);
+        return "redirect:/recipe/" + recipePath + "/ingredient/" + filledIngredients.getId() + "/show";
 //       return "redirect:/";
     }
 
@@ -77,7 +74,7 @@ public class IngridientController {
         ingredientCommand.setRecipeId(recipeId);
         themodel.addAttribute("ingredient", ingredientCommand);
         ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
-        themodel.addAttribute("uomList", unitOfMeasureService.listAllUom().collectList().block());
+        themodel.addAttribute("uomList", unitOfMeasureService.listAllUom());
         return "ingredient/ingredientform";
     }
 

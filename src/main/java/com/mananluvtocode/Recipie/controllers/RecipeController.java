@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.View;
 
 import java.util.UUID;
 
@@ -18,19 +17,15 @@ import java.util.UUID;
 @Slf4j
 public class RecipeController {
     private final RecipeService recipeService;
-    private final RecipeServiceImpl recipeServiceImpl;
-    private final View error;
 
-    public RecipeController(RecipeService recipeService, RecipeServiceImpl recipeServiceImpl, View error) {
+    public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
-        this.recipeServiceImpl = recipeServiceImpl;
-        this.error = error;
     }
 
     @GetMapping("/recipe/show/{id}")
     public String showByid(@PathVariable("id") String id, Model themodel) {
-        System.out.println(recipeService.findById(id).block());
-        themodel.addAttribute("recipe", recipeService.findById(id).block());
+//        System.out.println(recipeService.findById(id).block());
+        themodel.addAttribute("recipe", recipeService.findById(id));
         return "recipe/show";
     }
 
@@ -40,21 +35,21 @@ public class RecipeController {
         return "recipe/recipeform";
     }
 
-    private Long numberFormatExceptionHandler(String value) {
-        Long finalvalue = null;
-        try {
-            finalvalue = Long.parseLong(value);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            throw new NumberException("Invalid ID Format Used:- " + value);
-        }
-        return finalvalue;
-    }
+//    private Long numberFormatExceptionHandler(String value) {
+//        Long finalvalue = null;
+//        try {
+//            finalvalue = Long.parseLong(value);
+//        } catch (NumberFormatException e) {
+//            e.printStackTrace();
+//            throw new NumberException("Invalid ID Format Used:- " + value);
+//        }
+//        return finalvalue;
+//    }
 
     @GetMapping("/recipe/update/{id}")
     public String getRecipeUpdateForm(@PathVariable("id") String id, Model themodel) {
 
-        themodel.addAttribute("recipe", recipeService.findCommandById(id).block());
+        themodel.addAttribute("recipe", recipeService.findCommandById(id));
         return "recipe/recipeform";
     }
 
